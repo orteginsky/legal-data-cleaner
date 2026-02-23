@@ -16,6 +16,20 @@ def standardize_name(raw_name: str) -> str:
     # 1. Limpieza inicial
     name = raw_name.strip()
 
+    # --- NUEVA SECCIÓN: LIMPIEZA DE EXTENSIONES ---
+    # Definimos la lista de extensiones
+    extensions = [
+        "pdf", "docx", "jpg", "mp3", "png", "jpeg", "mp4", "zip", "3gp", 
+        "mov", "heic", "ogg", "m4a", "amr", "descarga", "doc", "odt", 
+        "js", "gif", "paper", "xlsx", "jfif", "eml", "txt", "opus", 
+        "html", "webp", "mpeg", "web", "3gpp"
+    ]
+    
+    # Creamos el patrón: busca un punto seguido de la extensión al final del string ($)
+    # flags=re.IGNORECASE cubre Mayúsculas y Minúsculas automáticamente
+    pattern_ext = r"\.(" + "|".join(extensions) + r")$"
+    name = re.sub(pattern_ext, "", name, flags=re.IGNORECASE)
+
     # 2. Eliminar paréntesis y corchetes (reemplazo con "" para evitar espacios extras)
     name = re.sub(r"\([^)]*\)|\[[^\]]*\]", "", name)
     name = _strip_non_alpha(name)
